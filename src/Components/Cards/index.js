@@ -9,6 +9,10 @@ export default class Card extends Component {
     this.setState({ isClicked: true })
   }
 
+  componentWillReceiveProps (prevProps) {
+    console.log(this.props)
+  }
+
   render () {
     return (
       <div
@@ -20,6 +24,7 @@ export default class Card extends Component {
         }}
         onClick={() => {
           this.handleClick()
+          this.props.handleAmountOfClicks()
           this.props.whichCardsClicked(
             this.props.name,
             this.props.id

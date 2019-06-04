@@ -39,11 +39,10 @@ class App extends React.Component {
     cardsSelected: []
   }
 
-  handleAmountOfClicks = e => {
+  handleAmountOfClicks = () =>
     this.setState({
       clickCount: this.state.clickCount + 1
     })
-  }
 
   handleMatch = () => {
     const { cardsSelected, currentPlayer } = this.state
@@ -64,7 +63,8 @@ class App extends React.Component {
           player2Score: this.state.player2Score + 1
         })
     } else {
-      alert('not a match')
+      console.log('not a match')
+      this.setState({ cardsSelected: [] })
     }
     this.changePlayers()
   }
@@ -102,13 +102,13 @@ class App extends React.Component {
   }
 
   render () {
-    console.log(this.state)
     const {
       player1Score,
       player2Score,
-      currentPlayer
+      currentPlayer,
+      cardsSelected
     } = this.state
-
+    console.log(this.state.clickCount)
     return (
       <div>
         <div
@@ -128,13 +128,13 @@ class App extends React.Component {
           <div>
             <h3>Current Player: {currentPlayer}</h3>
             <div>
-              {currentPlayer === 'player1' ? (
+              {/* {currentPlayer === 'player1' ? (
                 <Player1
                   cardsSelected={this.state.cardsSelected}
                 />
               ) : (
                 <Player2 />
-              )}
+              )} */}
             </div>
           </div>
         </div>
@@ -144,7 +144,6 @@ class App extends React.Component {
             display: 'flex',
             justifyContent: 'space-around'
           }}
-          onClick={e => this.handleAmountOfClicks(e)}
         >
           {this.state.cardNames.map(i => (
             <Cards
@@ -153,6 +152,10 @@ class App extends React.Component {
               name={i.name}
               whichCardsClicked={
                 this.handleWhichCardsClicked
+              }
+              cardsSelected={cardsSelected}
+              handleAmountOfClicks={
+                this.handleAmountOfClicks
               }
             />
           ))}
