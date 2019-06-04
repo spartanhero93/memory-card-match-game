@@ -13,7 +13,7 @@ export default class Player1 extends Component {
           Cards Selected:
           {this.props.cardsSelected.length
             ? this.props.cardsSelected.map(i => (
-              <span> {i} </span>
+              <span key={i.id}> {i.name} </span>
             ))
             : ''}
         </span>

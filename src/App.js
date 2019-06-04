@@ -8,17 +8,33 @@ class App extends React.Component {
   state = {
     currentPlayer: 'player1',
     clickCount: 0,
-    score: {
-      ply1: 0,
-      ply2: 0
-    },
+    player1Score: 0,
+    player2Score: 0,
     cardNames: [
-      'toad',
-      'toad',
-      'apple',
-      'apple',
-      'sheep',
-      'sheep'
+      {
+        name: 'toad',
+        id: 1
+      },
+      {
+        name: 'toad',
+        id: 2
+      },
+      {
+        name: 'apple',
+        id: 3
+      },
+      {
+        name: 'apple',
+        id: 4
+      },
+      {
+        name: 'sheep',
+        id: 5
+      },
+      {
+        name: 'sheep',
+        id: 6
+      }
     ],
     cardsSelected: []
   }
@@ -30,20 +46,34 @@ class App extends React.Component {
   }
 
   handleMatch = () => {
-    const cards = this.state.cardsSelected
-    if (cards[0] === cards[1]) {
-      alert('its a match')
+    const { cardsSelected, currentPlayer } = this.state
+    if (cardsSelected[0].name === cardsSelected[1].name) {
+      this.setState({
+        cardNames: [
+          ...this.state.cardNames.filter(
+            i => i.name !== cardsSelected[0].name
+          )
+        ],
+        cardsSelected: []
+      })
+      currentPlayer === 'player1'
+        ? this.setState({
+          player1Score: this.state.player1Score + 1
+        })
+        : this.setState({
+          player2Score: this.state.player2Score + 1
+        })
     } else {
       alert('not a match')
     }
+    this.changePlayers()
   }
 
-  handleWhichCardsClicked = cardName => {
-    const { currentPlayer } = this.state
+  handleWhichCardsClicked = (name, id) => {
     this.setState({
       cardsSelected: [
         ...this.state.cardsSelected,
-        cardName
+        { name, id }
       ]
     })
   }
@@ -51,7 +81,8 @@ class App extends React.Component {
   changePlayers = () => {
     this.setState({
       currentPlayer: 'player2',
-      cardsSelected: []
+      cardsSelected: [],
+      clickCount: 0
     })
   }
 
@@ -63,10 +94,21 @@ class App extends React.Component {
     }
     this.setState({ cardNames: a })
   }
+
+  componentDidUpdate () {
+    if (this.state.clickCount === 2) {
+      this.handleMatch()
+    }
+  }
+
   render () {
-    console.log(this.state.clickCount)
-    const { ply1, ply2 } = this.state.score
-    const { clickCount, currentPlayer } = this.state
+    console.log(this.state)
+    const {
+      player1Score,
+      player2Score,
+      currentPlayer
+    } = this.state
+
     return (
       <div>
         <div
@@ -76,17 +118,15 @@ class App extends React.Component {
             padding: '2rem 1rem'
           }}
         >
-          <h1>Player one score: {ply1}</h1>
-          <h1>Player two score: {ply2}</h1>
+          <h1>Player one score: {player1Score}</h1>
+          <h1>Player two score: {player2Score}</h1>
         </div>
         <div>
           <button onClick={this.shuffleCards}>
             Shuffle
           </button>
           <div>
-            <h3>
-              Current Player: {this.state.currentPlayer}
-            </h3>
+            <h3>Current Player: {currentPlayer}</h3>
             <div>
               {currentPlayer === 'player1' ? (
                 <Player1
@@ -108,7 +148,9 @@ class App extends React.Component {
         >
           {this.state.cardNames.map(i => (
             <Cards
-              name={i}
+              key={i.id}
+              id={i.id}
+              name={i.name}
               whichCardsClicked={
                 this.handleWhichCardsClicked
               }

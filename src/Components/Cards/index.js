@@ -20,11 +20,17 @@ export default class Card extends Component {
         }}
         onClick={() => {
           this.handleClick()
-          this.props.whichCardsClicked(this.props.name)
+          this.props.whichCardsClicked(
+            this.props.name,
+            this.props.id
+          )
         }}
       >
         {this.state.isClicked ? (
-          <h4>{this.props.name}</h4>
+          <div>
+            <h4>{this.props.name}</h4>
+            <h4>{this.props.id}</h4>
+          </div>
         ) : (
           <div>&&&</div>
         )}
