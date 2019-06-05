@@ -80,7 +80,10 @@ class App extends React.Component {
 
   changePlayers = () => {
     this.setState({
-      currentPlayer: 'player2',
+      currentPlayer:
+        this.state.currentPlayer === 'player1'
+          ? 'player2'
+          : 'player1',
       cardsSelected: [],
       clickCount: 0
     })
@@ -96,8 +99,21 @@ class App extends React.Component {
   }
 
   componentDidUpdate () {
-    if (this.state.clickCount === 2) {
+    const {
+      cardNames,
+      clickCount,
+      player1Score,
+      player2Score
+    } = this.state
+    if (clickCount === 2) {
       this.handleMatch()
+    }
+    if (cardNames.length === 0) {
+      if (player1Score > player2Score) {
+        alert('Player1 is the winner')
+      } else if (player2Score > player1Score) {
+        alert('Player2 is the winner')
+      }
     }
   }
 
