@@ -1,41 +1,13 @@
 import React from 'react'
-
 import Cards from './Components/Cards'
-import Player1 from './Components/Players/Player1'
-import Player2 from './Components/Players/Player2'
-
+import { cardNames } from './data'
 class App extends React.Component {
   state = {
     currentPlayer: 'player1',
     clickCount: 0,
     player1Score: 0,
     player2Score: 0,
-    cardNames: [
-      {
-        name: 'toad',
-        id: 1
-      },
-      {
-        name: 'toad',
-        id: 2
-      },
-      {
-        name: 'apple',
-        id: 3
-      },
-      {
-        name: 'apple',
-        id: 4
-      },
-      {
-        name: 'sheep',
-        id: 5
-      },
-      {
-        name: 'sheep',
-        id: 6
-      }
-    ],
+    cardNames,
     cardsSelected: []
   }
 
@@ -124,7 +96,7 @@ class App extends React.Component {
       currentPlayer,
       cardsSelected
     } = this.state
-    console.log(this.state.clickCount)
+    console.log(this.state.cardsSelected)
     return (
       <div>
         <div
@@ -143,15 +115,7 @@ class App extends React.Component {
           </button>
           <div>
             <h3>Current Player: {currentPlayer}</h3>
-            <div>
-              {/* {currentPlayer === 'player1' ? (
-                <Player1
-                  cardsSelected={this.state.cardsSelected}
-                />
-              ) : (
-                <Player2 />
-              )} */}
-            </div>
+            <div />
           </div>
         </div>
         <div
@@ -161,20 +125,29 @@ class App extends React.Component {
             justifyContent: 'space-around'
           }}
         >
-          {this.state.cardNames.map(i => (
-            <Cards
-              key={i.id}
-              id={i.id}
-              name={i.name}
-              whichCardsClicked={
-                this.handleWhichCardsClicked
-              }
-              cardsSelected={cardsSelected}
-              handleAmountOfClicks={
-                this.handleAmountOfClicks
-              }
-            />
-          ))}
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-around',
+              flexWrap: 'wrap'
+            }}
+          >
+            {this.state.cardNames.map(i => (
+              <Cards
+                key={i.id}
+                id={i.id}
+                name={i.name}
+                whichCardsClicked={
+                  this.handleWhichCardsClicked
+                }
+                cardsSelected={cardsSelected}
+                onClick={this.handleAmountOfClicks}
+                handleAmountOfClicks={
+                  this.handleAmountOfClicks
+                }
+              />
+            ))}
+          </div>
         </div>
       </div>
     )

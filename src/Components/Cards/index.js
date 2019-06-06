@@ -1,21 +1,58 @@
 import React, { Component } from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import Card from '@material-ui/core/Card'
-import CardActionArea from '@material-ui/core/CardActionArea'
-import CardActions from '@material-ui/core/CardActions'
-import CardContent from '@material-ui/core/CardContent'
-import CardMedia from '@material-ui/core/CardMedia'
-import Button from '@material-ui/core/Button'
-import Typography from '@material-ui/core/Typography'
+import styled, { keyframes } from 'styled-components'
 
-const useStyles = makeStyles({
-  card: {
-    maxWidth: 345
-  },
-  media: {
-    height: 140
+const flipAnim = keyframes`
+  0% {
+    transform: rotateY(0);
   }
-})
+  100% {
+    transform: rotateY(180deg);
+  }
+`
+const reverseFlipAnim = keyframes`
+  0% {
+    transform: rotateY(180deg);
+  }
+  100% {
+    transform: rotateY(0);
+  }
+`
+
+const Container = styled.div`
+  height: 150px;
+  width: 150px;
+  cursor: grab;
+  perspective: 600;
+  position: relative;
+  margin-bottom: 2rem;
+`
+const Card = styled.div`
+  height: 100%;
+  position: absolute;
+  transform-style: preserve-3d;
+  transition: all 1s ease-in-out;
+  width: 100%;
+  animation-name: ${props =>
+    props.isClicked ? flipAnim : reverseFlipAnim};
+  animation-duration: 1s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+`
+const CardSide = styled.div`
+  backface-visibility: hidden;
+  border-radius: 6px;
+  height: 100%;
+  position: absolute;
+  overflow: hidden;
+  width: 100%;
+`
+const CardBack = styled.div`
+  background: #eaeaed;
+  color: #0087cc;
+  line-height: 150px;
+  text-align: center;
+  transform: rotateY(180deg);
+`
 
 class Cards extends Component {
   state = {
@@ -27,18 +64,16 @@ class Cards extends Component {
   }
 
   componentWillReceiveProps () {
-    this.props.cardsSelected.map(i => {
-      if (this.props.name === i.name) {
-        this.setState({ isClicked: false })
-      }
-    })
+    this.props.cardsSelected.map(i =>
+      this.props.name === i.name
+        ? this.setState({ isClicked: false })
+        : ''
+    )
   }
 
   render () {
-    const classes = useStyles()
     return (
-      <Card
-        className={classes.card}
+      <Container
         onClick={() => {
           this.handleClick()
           this.props.handleAmountOfClicks()
@@ -48,38 +83,19 @@ class Cards extends Component {
           )
         }}
       >
-        <CardActionArea>
-          {/* <CardMedia
-          className={classes.media}
-          image="/static/images/cards/contemplative-reptile.jpg"
-          title="Contemplative Reptile"
-        /> */}
-          <CardContent>
-            <Typography
-              variant='body2'
-              color='textSecondary'
-              component='p'
-            >
-              {this.state.isClicked ? (
-                <div>
-                  <h4>{this.props.name}</h4>
-                  <h4>{this.props.id}</h4>
-                </div>
-              ) : (
-                <div>&&&</div>
-              )}
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-        <CardActions>
-          <Button size='small' color='primary'>
-            Share
-          </Button>
-          <Button size='small' color='primary'>
-            Learn More
-          </Button>
-        </CardActions>
-      </Card>
+        <Card isClicked={this.state.isClicked}>
+          <CardSide>
+            <img
+              src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/29841/jimmy.jpg'
+              alt='Jimmy Eat World'
+            />
+          </CardSide>
+          <CardBack>
+            <span>{this.props.name}</span>
+            <span>{this.props.id}</span>
+          </CardBack>
+        </Card>
+      </Container>
     )
   }
 }
