@@ -19,21 +19,25 @@ class App extends React.Component {
   handleMatch = () => {
     const { cardsSelected, currentPlayer } = this.state
     if (cardsSelected[0].name === cardsSelected[1].name) {
-      this.setState({
-        cardNames: [
-          ...this.state.cardNames.filter(
-            i => i.name !== cardsSelected[0].name
-          )
-        ],
-        cardsSelected: []
-      })
-      currentPlayer === 'player1'
-        ? this.setState({
-          player1Score: this.state.player1Score + 1
+      if (cardsSelected[0].id === cardsSelected[1].id) {
+        this.setState({ cardsSelected: [] })
+      } else {
+        currentPlayer === 'player1'
+          ? this.setState({
+            player1Score: this.state.player1Score + 1
+          })
+          : this.setState({
+            player2Score: this.state.player2Score + 1
+          })
+        this.setState({
+          cardNames: [
+            ...this.state.cardNames.filter(
+              i => i.name !== cardsSelected[0].name
+            )
+          ],
+          cardsSelected: []
         })
-        : this.setState({
-          player2Score: this.state.player2Score + 1
-        })
+      }
     } else {
       console.log('not a match')
       this.setState({ cardsSelected: [] })
