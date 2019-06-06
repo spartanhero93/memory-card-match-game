@@ -29,18 +29,22 @@ class App extends React.Component {
           : this.setState({
             player2Score: this.state.player2Score + 1
           })
-        this.setState({
-          cardNames: [
-            ...this.state.cardNames.filter(
-              i => i.name !== cardsSelected[0].name
-            )
-          ],
-          cardsSelected: []
-        })
+        setTimeout(() => {
+          this.setState({
+            cardNames: [
+              ...this.state.cardNames.filter(
+                i => i.name !== cardsSelected[0].name
+              )
+            ],
+            cardsSelected: []
+          })
+        }, 700)
       }
     } else {
       console.log('not a match')
-      this.setState({ cardsSelected: [] })
+      setTimeout(() => {
+        this.setState({ cardsSelected: [] })
+      }, 700)
     }
     this.changePlayers()
   }

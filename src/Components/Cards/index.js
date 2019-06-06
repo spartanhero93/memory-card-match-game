@@ -34,7 +34,7 @@ const Card = styled.div`
   width: 100%;
   animation-name: ${props =>
     props.isClicked ? flipAnim : reverseFlipAnim};
-  animation-duration: 1s;
+  animation-duration: 700ms;
   animation-iteration-count: 1;
   animation-fill-mode: forwards;
 `
@@ -64,11 +64,13 @@ class Cards extends Component {
   }
 
   componentWillReceiveProps () {
-    this.props.cardsSelected.map(i =>
-      this.props.name === i.name
-        ? this.setState({ isClicked: false })
-        : ''
-    )
+    this.props.cardsSelected.map(i => {
+      if (this.props.name === i.name) {
+        setTimeout(() => {
+          this.setState({ isClicked: false })
+        }, 700)
+      }
+    })
   }
 
   render () {
