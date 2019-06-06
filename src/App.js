@@ -11,10 +11,11 @@ class App extends React.Component {
     cardsSelected: []
   }
 
+  componentWillMount () {
+    this.shuffleCards()
+  }
   handleAmountOfClicks = () =>
-    this.setState({
-      clickCount: this.state.clickCount + 1
-    })
+    this.setState({ clickCount: this.state.clickCount + 1 })
 
   handleMatch = () => {
     const { cardsSelected, currentPlayer } = this.state
@@ -104,7 +105,7 @@ class App extends React.Component {
       currentPlayer,
       cardsSelected
     } = this.state
-    console.log(this.state.cardsSelected)
+    console.log(this.state.clickCount)
     return (
       <div>
         <div
@@ -141,19 +142,19 @@ class App extends React.Component {
             }}
           >
             {this.state.cardNames.map(i => (
-              <Cards
+              <div
                 key={i.id}
-                id={i.id}
-                name={i.name}
-                whichCardsClicked={
-                  this.handleWhichCardsClicked
-                }
-                cardsSelected={cardsSelected}
                 onClick={this.handleAmountOfClicks}
-                handleAmountOfClicks={
-                  this.handleAmountOfClicks
-                }
-              />
+              >
+                <Cards
+                  id={i.id}
+                  name={i.name}
+                  whichCardsClicked={
+                    this.handleWhichCardsClicked
+                  }
+                  cardsSelected={cardsSelected}
+                />
+              </div>
             ))}
           </div>
         </div>
