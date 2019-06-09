@@ -9,7 +9,8 @@ import CodeImg from '../../img/code2.jpg'
 
 class Cards extends Component {
   state = {
-    isClicked: false
+    isClicked: false,
+    timeID: ''
   }
 
   handleClick = () => {
@@ -22,9 +23,10 @@ class Cards extends Component {
   componentWillReceiveProps () {
     this.props.cardsSelected.map(i => {
       if (this.props.name === i.name) {
-        setTimeout(() => {
+        let timeID = setTimeout(() => {
           this.setState({ isClicked: false })
         }, 700)
+        this.setState({ timeID })
       }
     })
   }

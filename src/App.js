@@ -48,7 +48,7 @@ class App extends React.Component {
       console.log('not a match')
       setTimeout(() => {
         this.setState({ cardsSelected: [] })
-      }, 500)
+      }, 400)
     }
     this.changePlayers()
   }
