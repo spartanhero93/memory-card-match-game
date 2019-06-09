@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { cardNames } from './data'
+import { cardArray } from './data'
 
 export default function App () {
   const [clickCount, handleClick] = useState(0)
@@ -7,27 +7,35 @@ export default function App () {
   const [blueScore, handleBlueScore] = useState(0)
   const [currentPlayer, changePlayer] = useState('red')
   const [whichCardsSelected, handleSelection] = useState([])
+  const [cardNames, handleCardNames] = useState(cardArray)
 
   function handleMatch () {
     /** mostly error handling */
     if (whichCardsSelected.length === 2) {
+      /** Checks for duplicates */
       if (
         whichCardsSelected[0]['id'] ===
         whichCardsSelected[1]['id']
       ) {
-        handleSelection([])
         changePlayers()
       } else {
         if (
           whichCardsSelected[0]['name'] ===
           whichCardsSelected[1]['name']
         ) {
-          handleSelection([])
           addScoreToPlayer()
+          setTimeout(() => {
+            handleCardNames(
+              cardNames.filter(
+                i =>
+                  i['name'] !==
+                  whichCardsSelected[0]['name']
+              )
+            )
+          }, 300)
         }
       }
-    } else {
-      /** if the cards selected is greater or less than two restart */
+    } else if (whichCardsSelected.length >= 3) {
       handleSelection([])
     }
   }
@@ -40,10 +48,12 @@ export default function App () {
     }
   }
 
-  const changePlayers = () =>
+  const changePlayers = () => {
+    handleSelection([])
     currentPlayer === 'red'
       ? changePlayer('blue')
       : changePlayer('red')
+  }
 
   if (clickCount === 2) {
     handleClick(0)
@@ -79,6 +89,7 @@ export default function App () {
         {cardNames.map(i => {
           return (
             <div
+              key={i.id}
               onClick={() => {
                 handleSelection([...whichCardsSelected, i])
                 handleClick(clickCount + 1)
@@ -89,24 +100,29 @@ export default function App () {
                 border: 'solid 2px'
               }}
             >
-              {i.name}
+              <Card info={i} clickCount={clickCount} />
             </div>
           )
         })}
-        {/* <Card
-            key={i.id}
-            info={i}
-            whichCardsSelected={whichCardsSelected}
-            handleSelection={handleSelection}
-            handleClick={handleClick}
-          />
-        ))} */}
       </div>
     </div>
   )
 }
 
-function Card () {
+function Card ({ info, clickCount }) {
   const [isActive, changeState] = useState(false)
-  return <div onClick={() => changeState(true)} />
+  if (!clickCount) {
+    console.log('lol')
+  }
+  return (
+    <div
+      style={{
+        width: '100%',
+        height: '100%'
+      }}
+      onClick={() => changeState(true)}
+    >
+      {isActive ? info.name : '&&&'}
+    </div>
+  )
 }

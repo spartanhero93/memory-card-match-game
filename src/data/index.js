@@ -30,5 +30,21 @@ export const cardNames = [
   {
     name: 'lion',
     id: 8
+  },
+  {
+    name: 'tiger',
+    id: 9
+  },
+  {
+    name: 'tiger',
+    id: 10
+  },
+  {
+    name: 'eagle',
+    id: 11
+  },
+  {
+    name: 'eagle',
+    id: 12
   }
 ]

@@ -49,7 +49,6 @@ class Cards extends Component {
           </CardSide>
           <CardBack>
             <span>{this.props.name}</span>
-            <span>{this.props.id}</span>
           </CardBack>
         </Card>
       </Container>

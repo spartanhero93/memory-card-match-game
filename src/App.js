@@ -8,7 +8,8 @@ class App extends React.Component {
     player1Score: 0,
     player2Score: 0,
     cardNames,
-    cardsSelected: []
+    cardsSelected: [],
+    gameOver: false
   }
 
   componentWillMount () {
@@ -45,9 +46,9 @@ class App extends React.Component {
         }, 700)
       }
     } else {
-      console.log('not a match')
       setTimeout(() => {
         this.setState({ cardsSelected: [] })
+        console.log('not a match')
       }, 400)
     }
     this.changePlayers()
@@ -93,10 +94,13 @@ class App extends React.Component {
       this.handleMatch()
     }
     if (cardNames.length === 0) {
+      this.setState({ cardNames })
       if (player1Score > player2Score) {
         alert('Player1 is the winner')
       } else if (player2Score > player1Score) {
         alert('Player2 is the winner')
+      } else if (player1Score === player2Score) {
+        alert('its a tie!')
       }
     }
   }
@@ -108,7 +112,6 @@ class App extends React.Component {
       currentPlayer,
       cardsSelected
     } = this.state
-    console.log(this.state.clickCount)
     return (
       <div>
         <div
@@ -126,7 +129,9 @@ class App extends React.Component {
             Shuffle
           </button>
           <div>
-            <h3>Current Player: {currentPlayer}</h3>
+            <span>
+              Current Player: <h1>{currentPlayer}</h1>
+            </span>
             <div />
           </div>
         </div>
