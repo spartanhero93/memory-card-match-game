@@ -37,7 +37,7 @@ export const Container = styled.div`
   cursor: grab;
   perspective: 600;
   position: relative;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 `
 export const Card = styled.div`
   height: 100%;

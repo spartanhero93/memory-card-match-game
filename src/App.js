@@ -14,8 +14,11 @@ class App extends React.Component {
   componentWillMount () {
     this.shuffleCards()
   }
-  handleAmountOfClicks = () =>
-    this.setState({ clickCount: this.state.clickCount + 1 })
+  handleAmountOfClicks = () => {
+    this.setState({
+      clickCount: this.state.clickCount + 1
+    })
+  }
 
   handleMatch = () => {
     const { cardsSelected, currentPlayer } = this.state
@@ -45,7 +48,7 @@ class App extends React.Component {
       console.log('not a match')
       setTimeout(() => {
         this.setState({ cardsSelected: [] })
-      }, 700)
+      }, 500)
     }
     this.changePlayers()
   }
@@ -127,36 +130,30 @@ class App extends React.Component {
             <div />
           </div>
         </div>
+
         <div
           style={{
-            marginTop: '4rem',
             display: 'flex',
-            justifyContent: 'space-around'
+            justifyContent: 'space-evenly',
+            flexWrap: 'wrap',
+            margin: '2rem 0'
           }}
         >
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-around',
-              flexWrap: 'wrap'
-            }}
-          >
-            {this.state.cardNames.map(i => (
-              <div
-                key={i.id}
-                onClick={this.handleAmountOfClicks}
-              >
-                <Cards
-                  id={i.id}
-                  name={i.name}
-                  whichCardsClicked={
-                    this.handleWhichCardsClicked
-                  }
-                  cardsSelected={cardsSelected}
-                />
-              </div>
-            ))}
-          </div>
+          {this.state.cardNames.map(i => (
+            <React.Fragment key={i.id}>
+              <Cards
+                id={i.id}
+                name={i.name}
+                whichCardsClicked={
+                  this.handleWhichCardsClicked
+                }
+                cardsSelected={cardsSelected}
+                handleAmountOfClicks={
+                  this.handleAmountOfClicks
+                }
+              />
+            </React.Fragment>
+          ))}
         </div>
       </div>
     )

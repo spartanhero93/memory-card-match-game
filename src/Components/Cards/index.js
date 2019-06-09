@@ -38,6 +38,7 @@ class Cards extends Component {
             this.props.name,
             this.props.id
           )
+          this.props.handleAmountOfClicks()
         }}
       >
         <Card isClicked={this.state.isClicked}>
