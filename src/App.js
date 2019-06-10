@@ -1,6 +1,7 @@
 import React from 'react'
 import Cards from './Components/Cards'
 import { cardNames } from './data'
+import { handleWinner, shuffleCards } from './utils'
 class App extends React.Component {
   state = {
     currentPlayer: 'player1',
@@ -8,21 +9,29 @@ class App extends React.Component {
     player1Score: 0,
     player2Score: 0,
     cardNames,
-    cardsSelected: [],
-    gameOver: false
+    cardsSelected: []
   }
 
   componentWillMount () {
-    this.shuffleCards()
+    this.setState({ cardNames: shuffleCards(cardNames) })
   }
-  handleAmountOfClicks = () => {
+  componentDidUpdate () {
+    if (this.state.clickCount === 2) {
+      this.handleMatch()
+    }
+  }
+
+  handleAmountOfClicks = () =>
     this.setState({
       clickCount: this.state.clickCount + 1
     })
-  }
 
   handleMatch = () => {
     const { cardsSelected, currentPlayer } = this.state
+    if (!cardsSelected[1]) {
+      return
+    }
+
     if (cardsSelected[0].name === cardsSelected[1].name) {
       if (cardsSelected[0].id === cardsSelected[1].id) {
         this.setState({ cardsSelected: [] })
@@ -51,10 +60,16 @@ class App extends React.Component {
         console.log('not a match')
       }, 400)
     }
+
     this.changePlayers()
   }
 
   handleWhichCardsClicked = (name, id) => {
+    const { cardsSelected } = this.state
+    if (cardsSelected.length === 2) {
+      this.handleMatch()
+      return
+    }
     this.setState({
       cardsSelected: [
         ...this.state.cardsSelected,
@@ -62,8 +77,7 @@ class App extends React.Component {
       ]
     })
   }
-
-  changePlayers = () => {
+  changePlayers = () =>
     this.setState({
       currentPlayer:
         this.state.currentPlayer === 'player1'
@@ -72,38 +86,6 @@ class App extends React.Component {
       cardsSelected: [],
       clickCount: 0
     })
-  }
-
-  shuffleCards = () => {
-    const a = this.state.cardNames
-    for (let i = a.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1))
-      ;[a[i], a[j]] = [a[j], a[i]]
-    }
-    this.setState({ cardNames: a })
-  }
-
-  componentDidUpdate () {
-    const {
-      cardNames,
-      clickCount,
-      player1Score,
-      player2Score
-    } = this.state
-    if (clickCount === 2) {
-      this.handleMatch()
-    }
-    if (cardNames.length === 0) {
-      this.setState({ cardNames })
-      if (player1Score > player2Score) {
-        alert('Player1 is the winner')
-      } else if (player2Score > player1Score) {
-        alert('Player2 is the winner')
-      } else if (player1Score === player2Score) {
-        alert('its a tie!')
-      }
-    }
-  }
 
   render () {
     const {
@@ -112,6 +94,17 @@ class App extends React.Component {
       currentPlayer,
       cardsSelected
     } = this.state
+    console.log(cardsSelected)
+
+    if (!this.state.cardNames.length) {
+      handleWinner(player1Score, player2Score)
+      this.setState({
+        player1Score: 0,
+        player2Score: 0,
+        cardNames
+      })
+    }
+
     return (
       <div>
         <div
@@ -125,9 +118,6 @@ class App extends React.Component {
           <h1>Player two score: {player2Score}</h1>
         </div>
         <div>
-          <button onClick={this.shuffleCards}>
-            Shuffle
-          </button>
           <div>
             <span>
               Current Player: <h1>{currentPlayer}</h1>
