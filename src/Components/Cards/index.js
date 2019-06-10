@@ -21,6 +21,7 @@ class Cards extends Component {
    * Need a better way to handle this
    */
   componentWillReceiveProps () {
+    // eslint-disable-next-line array-callback-return
     this.props.cardsSelected.map(i => {
       if (this.props.name === i.name) {
         let timeID = setTimeout(() => {
