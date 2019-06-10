@@ -22,29 +22,29 @@ export const cardNames = [
   {
     name: 'sheep',
     id: 6
+  },
+  {
+    name: 'lion',
+    id: 7
+  },
+  {
+    name: 'lion',
+    id: 8
+  },
+  {
+    name: 'tiger',
+    id: 9
+  },
+  {
+    name: 'tiger',
+    id: 10
+  },
+  {
+    name: 'eagle',
+    id: 11
+  },
+  {
+    name: 'eagle',
+    id: 12
   }
-  // {
-  //   name: 'lion',
-  //   id: 7
-  // },
-  // {
-  //   name: 'lion',
-  //   id: 8
-  // },
-  // {
-  //   name: 'tiger',
-  //   id: 9
-  // },
-  // {
-  //   name: 'tiger',
-  //   id: 10
-  // },
-  // {
-  //   name: 'eagle',
-  //   id: 11
-  // },
-  // {
-  //   name: 'eagle',
-  //   id: 12
-  // }
 ]
