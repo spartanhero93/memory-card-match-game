@@ -54,13 +54,12 @@ class App extends React.Component {
             ],
             cardsSelected: []
           })
-        }, 700)
+        }, 500)
       }
     } else {
       setTimeout(() => {
         this.setState({ cardsSelected: [] })
-        console.log('not a match')
-      }, 400)
+      }, 500)
     }
 
     this.changePlayers()
@@ -94,15 +93,16 @@ class App extends React.Component {
       currentPlayer,
       cardsSelected
     } = this.state
-    console.log(cardsSelected)
 
     if (!this.state.cardNames.length) {
       handleWinner(redScore, blueScore)
-      this.setState({
-        redScore: 0,
-        blueScore: 0,
-        cardNames
-      })
+      setTimeout(() => {
+        this.setState({
+          redScore: 0,
+          blueScore: 0,
+          cardNames
+        })
+      }, 300)
     }
 
     return (

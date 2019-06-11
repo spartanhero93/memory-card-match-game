@@ -52,7 +52,7 @@ export const Card = styled.div`
   width: 100%;
   animation-name: ${({ isClicked }) =>
     isClicked ? flipAnim : reverseFlipAnim};
-  animation-duration: 700ms;
+  animation-duration: 500ms;
   animation-iteration-count: 1;
   animation-fill-mode: forwards;
 `
