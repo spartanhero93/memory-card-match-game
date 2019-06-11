@@ -32,12 +32,17 @@ const fadeIn = keyframes`
 `
 
 export const Container = styled.div`
-  height: 150px;
-  width: 150px;
+  height: 200px;
+  width: 200px;
   cursor: grab;
   perspective: 600;
   position: relative;
   margin-bottom: 1rem;
+
+  @media (max-width: 800px) {
+    height: 100px;
+    width: 100px;
+  }
 `
 export const Card = styled.div`
   height: 100%;
@@ -67,8 +72,14 @@ export const CardSide = styled.div`
 export const CardBack = styled.div`
   background: #eaeaed;
   color: #0087cc;
-  line-height: 150px;
+  line-height: 200px;
   text-align: center;
   transform: rotateY(180deg);
   animation: ${fadeIn};
+  font-size: 1.5rem;
+
+  @media (max-width: 800px) {
+    line-height: 100px;
+    font-size: 1rem;
+  }
 `

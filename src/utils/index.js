@@ -1,8 +1,8 @@
 export const handleWinner = (play1Score, play2Score) => {
   if (play1Score > play2Score) {
-    alert('Player1 is the winner')
+    alert('Red is the winner')
   } else if (play2Score > play1Score) {
-    alert('Player2 is the winner')
+    alert('Blue is the winner')
   } else if (play1Score === play2Score) {
     alert('its a tie!')
   }

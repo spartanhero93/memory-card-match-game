@@ -1,13 +1,15 @@
 import React from 'react'
+import styled from 'styled-components'
 import Cards from './Components/Cards'
 import { cardNames } from './data'
 import { handleWinner, shuffleCards } from './utils'
+import Header from './Components/Header'
 class App extends React.Component {
   state = {
-    currentPlayer: 'player1',
+    currentPlayer: 'red',
     clickCount: 0,
-    player1Score: 0,
-    player2Score: 0,
+    redScore: 0,
+    blueScore: 0,
     cardNames,
     cardsSelected: []
   }
@@ -36,12 +38,12 @@ class App extends React.Component {
       if (cardsSelected[0].id === cardsSelected[1].id) {
         this.setState({ cardsSelected: [] })
       } else {
-        currentPlayer === 'player1'
+        currentPlayer === 'red'
           ? this.setState({
-            player1Score: this.state.player1Score + 1
+            redScore: this.state.redScore + 1
           })
           : this.setState({
-            player2Score: this.state.player2Score + 1
+            blueScore: this.state.blueScore + 1
           })
         setTimeout(() => {
           this.setState({
@@ -80,51 +82,36 @@ class App extends React.Component {
   changePlayers = () =>
     this.setState({
       currentPlayer:
-        this.state.currentPlayer === 'player1'
-          ? 'player2'
-          : 'player1',
+        this.state.currentPlayer === 'red' ? 'blue' : 'red',
       cardsSelected: [],
       clickCount: 0
     })
 
   render () {
     const {
-      player1Score,
-      player2Score,
+      redScore,
+      blueScore,
       currentPlayer,
       cardsSelected
     } = this.state
     console.log(cardsSelected)
 
     if (!this.state.cardNames.length) {
-      handleWinner(player1Score, player2Score)
+      handleWinner(redScore, blueScore)
       this.setState({
-        player1Score: 0,
-        player2Score: 0,
+        redScore: 0,
+        blueScore: 0,
         cardNames
       })
     }
 
     return (
-      <div>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            padding: '2rem 1rem'
-          }}
-        >
-          <h1>Player one score: {player1Score}</h1>
-          <h1>Player two score: {player2Score}</h1>
-        </div>
-        <div>
-          <div>
-            <span>
-              Current Player: <h1>{currentPlayer}</h1>
-            </span>
-            <div />
-          </div>
-        </div>
+      <Container>
+        <Header
+          redScore={redScore}
+          blueScore={blueScore}
+          currentPlayer={currentPlayer}
+        />
 
         <div
           style={{
@@ -150,9 +137,19 @@ class App extends React.Component {
             </React.Fragment>
           ))}
         </div>
-      </div>
+      </Container>
     )
   }
 }
+
+const Container = styled.div`
+  height: 100vh;
+  padding: 2rem 0;
+
+  @media (max-width: 450px) {
+    font-size: 0.5rem;
+    height: 100%;
+  }
+`
 
 export default App
